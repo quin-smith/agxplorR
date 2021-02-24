@@ -12,5 +12,8 @@ milk_trend <- read.csv(here("data","milk.csv")) %>%
   mutate(milk_kg = as.numeric(value) * 0.4535924) %>% 
   rename(milk_lb = value)
 
-milk_trend <- milk_trend %>% 
-  mutate(state = str_to_title(milk_trend$state))
+milk_trend <- milk_trend %>%
+  mutate(state = str_to_title(milk_trend$state),
+         milk_l = milk_kg / 1.03,
+         milk_l_e6 = milk_l / 10^6)
+

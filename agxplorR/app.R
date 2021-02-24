@@ -12,7 +12,7 @@ library(fable)
 library(broom)
 
 #sourced
-source(here("R", "cows_trend.R"))
+source(here("R", "milk_trend.R"))
 source(here("R", "cows_us_trend.R"))
 source(here("R", "emissions_trend.R"))
 
@@ -23,10 +23,10 @@ states <- read_csv(here("data", "fiftystatesCAN.csv"))
 states_tojoin <- states %>%
     mutate(join_state = toupper(states$region))
 
-cows_tojoin <- cows_trend %>%
-    mutate(join_state = toupper(cows_trend$state))
+milk_tojoin <- milk_trend %>%
+    mutate(join_state = toupper(milk_trend$state))
 
-cows_state <- cows_tojoin %>%
+milk_state <- milk_tojoin %>%
     inner_join(states_tojoin, by = "join_state") %>%
     mutate(year = as.numeric(year))
 
@@ -91,7 +91,7 @@ server <- function(input, output) {
     
     chloro_reactive <- reactive({
         
-        cows_state %>%
+        milk_state %>%
             group_by(state) %>%
             filter(year %in% input$pick_year)
         
@@ -102,10 +102,11 @@ server <- function(input, output) {
         
         
         ggplot() +
-            geom_polygon(data = chloro_reactive(), aes(x = long, y = lat, group = group, fill = cows),
+            geom_polygon(data = chloro_reactive(), aes(x = long, y = lat, group = group, fill = milk_l_e6),
                          color = "white") +
-            scale_fill_continuous(limits=c(0,2000), type = "viridis") +
+            scale_fill_continuous(limits=c(min(milk_state$milk_l_e6),max(milk_state$milk_l_e6)), type = "viridis") +
             coord_quickmap() +
+            labs(fill = "Annual milk production \n(10^6 liters)") +
             theme_bw()
     )
     
