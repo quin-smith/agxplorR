@@ -15,6 +15,7 @@ library(broom)
 source(here("R", "milk_trend.R"))
 source(here("R", "cows_us_trend.R"))
 source(here("R", "emissions_trend.R"))
+source(here("R", "food_impact.R"))
 
 #read in data
 states <- read_csv(here("data", "fiftystatesCAN.csv"))
@@ -76,14 +77,16 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                                         mainPanel("output placeholder",
                                                   plotOutput("emissions_plot"))
                                     )),
-                           tabPanel("Digester Economic Potential",
+                           tabPanel("Food Impact Comparison",
                                     sidebarLayout(
-                                        sidebarPanel("Placeholder Widget - date range",
-                                                     dateRangeInput(inputId = "dates",
-                                                                    label = h3("Date range")),
-                                                     hr(),
-                                                     fluidRow(column(4, verbatimTextOutput("value")))),
-                                        mainPanel("output placeholder")
+                                        sidebarPanel("Food Selections",
+                                                     checkboxGroupInput(inputId = "pick_food",
+                                                                        
+                                                                        label = "Choose Foods for Comparison",
+                                                                        choices = unique(food_impact$product),
+                                                                        selected = food_impact[1,1])),
+                                        mainPanel("output placeholder",
+                                                  plotOutput("impact_chart"))
                                     ))
                 ))
 
@@ -134,10 +137,17 @@ server <- function(input, output) {
             geom_line(data = time_series_emissions_reactive(), aes(x = year, y = total_emissions, color = emissions_type))
     )
     
-    tab4_reactive <- reactive({
-        starwars %>%
-            filter(height %in% input$dates)
+    food_impact_reactive <- reactive({
+        food_impact %>%
+            filter(product %in% input$pick_food)
     })
+    
+    output$impact_chart <- renderPlot(
+        ggplot() +
+            geom_col(data = food_impact_reactive(), aes(x = effect_type, y = mean, fill = product),
+                     position = "dodge")
+            #facet_grid(.~effect_type, scales = "free_y")
+    )
     
 }
 
