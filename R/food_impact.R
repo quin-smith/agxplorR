@@ -24,7 +24,16 @@ food_impact <- read_excel(here("data","aaq0216_DataS2.xls"), skip = 1) %>%
          eutroph_mu,
          freshwater_mu,
          stresswater_mu) %>% 
-  filter(land_use_mu != "Mean" & land_use_mu != "NA")
+  filter(land_use_mu != "Mean" & land_use_mu != "NA") %>% 
+  pivot_longer(cols = c(land_use_mu,
+                        ghg_2013_mu,
+                        ghg_2007_mu,
+                        acid_mu,
+                        eutroph_mu,
+                        freshwater_mu,
+                        stresswater_mu),
+               names_to = "effect_type",
+               values_to = "mean")
   
 
 
