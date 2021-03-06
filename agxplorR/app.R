@@ -17,6 +17,7 @@ source(here("R", "cows_us_trend.R"))
 source(here("R", "emissions_trend.R"))
 source(here("R", "food_impact.R"))
 source(here("R", "milk_us_trend.R"))
+source(here("R", "serv_impact.R"))
 
 #read in data
 states <- read_csv(here("data", "fiftystatesCAN.csv"))
