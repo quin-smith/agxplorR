@@ -1,7 +1,5 @@
 # agxplorR Shiny Structure
-
 # test test 123
-
 library(tidyverse)
 library(shiny)
 library(bslib)
@@ -11,65 +9,64 @@ library(tsibble)
 library(feasts)
 library(fable)
 library(broom)
-
 #sourced
 source(here("R", "milk_trend.R"))
 source(here("R", "cows_us_trend.R"))
 source(here("R", "emissions_trend.R"))
 source(here("R", "food_impact.R"))
-
 #read in data
 states <- read_csv(here("data", "fiftystatesCAN.csv"))
-
 #wrangling
 states_tojoin <- states %>%
     mutate(join_state = toupper(states$region))
-
 milk_tojoin <- milk_trend %>%
     mutate(join_state = toupper(milk_trend$state))
-
 milk_state <- milk_tojoin %>%
     inner_join(states_tojoin, by = "join_state") %>%
     mutate(year = as.numeric(year))
-
 ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
+
                 
+
                 navbarPage("AgxploR: Agricultural Trends & Impacts in the US",
                            tabPanel("Overview",
                                     mainPanel("The purpose of this app is to allow users to explore agricultural production and related environmental impacts (EI) over time in the U.S. through interactive visualizations of EI data.", width = 8, offset = 4)
                            ),
-                           
                            #chloropleth
                            tabPanel("National Milk Production Over Time",
                                     sidebarLayout(
                                         sidebarPanel("Select the year for which you'd like to see milk production mapping - or push the play arrow to watch changes over the entire time line",
                                                      sliderInput(inputId = "pick_year", label = "Choose Year",
-                                                                 
                                                                  min = 1970,
                                                                  max = 2019,
                                                                  value = 1970,
                                                                  sep = "",
                                                                  ticks = FALSE,
-                                                                 animate = TRUE)),
-                                        
+
+                                                                 animate = TRUE),
+                                                     checkboxGroupInput(inputId = "pick_state_2",
+                                                                        label = "Choose State / Total U.S.",
+                                                                        choices = unique(milk_us_trend$state)
+                                                     )),
                                         mainPanel("Popular documentaries such as Cowspiracy have increased public awareness around some of the environmental impacts of meat production - but what about dairy? How do these foods compare to other foods as far as environmental impact? Let's start by looking at national milk production over time - in millions of gallons - to get a sense of how big of an impact milk may have.",
-                                                  plotOutput("state_plot"))
+                                                  plotOutput("state_plot"),
+                                                  plotOutput("milk_plot"))
                                     )),
-                           
+
                            tabPanel("Comparing Food Impacts by Serving",
                                     sidebarLayout(
                                         sidebarPanel("Time Series Selections",
                                                      checkboxGroupInput(inputId = "pick_state_2",
-                                                                        
                                                                         label = "Choose State / Total U.S.",
                                                                         choices = unique(cows_us_trend$state))),
                                         mainPanel("Dairy Cow Time Series",
-                                                  
                                                   plotOutput("cows_plot"))
                                     )),
+
                            
                            tabPanel("Comparing Total Annual Food Impacts",
                                     
+
                                     sidebarLayout(
                                         sidebarPanel("Time Series Selections",
                                                      checkboxGroupInput(inputId = "pick_emissions",
@@ -82,7 +79,6 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                                     sidebarLayout(
                                         sidebarPanel("Food Selections",
                                                      checkboxGroupInput(inputId = "pick_food",
-                                                                        
                                                                         label = "Choose Foods for Comparison",
                                                                         choices = unique(food_impact$product),
                                                                         selected = food_impact[1,1])),
@@ -114,16 +110,16 @@ server <- function(input, output) {
             theme_bw()
     )
     
-    time_series_cows_reactive <- reactive({
-        cows_us_trend %>%
+    time_series_milk_reactive <- reactive({
+        milk_us_trend %>%
             filter(state %in% input$pick_state_2) %>%
             mutate(as.Date(as.character(year), format = "%Y"))
     })
     
-    output$cows_plot <- renderPlot(
+    output$milk_plot <- renderPlot(
         ggplot() +
             
-            geom_line(data = time_series_cows_reactive(), aes(x = year, y = cows, color = state)) +
+            geom_line(data = time_series_milk_reactive(), aes(x = year, y = milk_l_e6, color = state)) +
             labs(color = "")
     )
     
