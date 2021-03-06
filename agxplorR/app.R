@@ -1,5 +1,5 @@
 # agxplorR Shiny Structure
-# test test 123
+
 library(tidyverse)
 library(shiny)
 library(bslib)
@@ -25,9 +25,10 @@ milk_state <- milk_tojoin %>%
     inner_join(states_tojoin, by = "join_state") %>%
     mutate(year = as.numeric(year))
 ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
-
+<<<<<<< HEAD
                 
-
+=======
+>>>>>>> origin
                 navbarPage("AgxploR: Agricultural Trends & Impacts in the US",
                            tabPanel("Overview",
                                     mainPanel("The purpose of this app is to allow users to explore agricultural production and related environmental impacts (EI) over time in the U.S. through interactive visualizations of EI data.", width = 8, offset = 4)
@@ -42,7 +43,14 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                                                                  value = 1970,
                                                                  sep = "",
                                                                  ticks = FALSE,
-
+<<<<<<< HEAD
+                                                                 animate = TRUE)),
+                                        
+                                        mainPanel("Popular documentaries such as Cowspiracy have increased public awareness around some of the environmental impacts of meat production - but what about dairy? How do these foods compare to other foods as far as environmental impact? Let's start by looking at national milk production over time - in millions of gallons - to get a sense of how big of an impact milk may have.",
+                                                  plotOutput("state_plot"))
+                                    )),
+                           
+=======
                                                                  animate = TRUE),
                                                      checkboxGroupInput(inputId = "pick_state_2",
                                                                         label = "Choose State / Total U.S.",
@@ -52,7 +60,7 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                                                   plotOutput("state_plot"),
                                                   plotOutput("milk_plot"))
                                     )),
-
+>>>>>>> origin
                            tabPanel("Comparing Food Impacts by Serving",
                                     sidebarLayout(
                                         sidebarPanel("Time Series Selections",
@@ -62,11 +70,13 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                                         mainPanel("Dairy Cow Time Series",
                                                   plotOutput("cows_plot"))
                                     )),
-
+<<<<<<< HEAD
                            
                            tabPanel("Comparing Total Annual Food Impacts",
                                     
-
+=======
+                           tabPanel("Comparing Total Annual Food Impacts",
+>>>>>>> origin
                                     sidebarLayout(
                                         sidebarPanel("Time Series Selections",
                                                      checkboxGroupInput(inputId = "pick_emissions",
