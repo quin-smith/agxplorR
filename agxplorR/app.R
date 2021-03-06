@@ -34,15 +34,15 @@ milk_state <- milk_tojoin %>%
 
 ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                 
-                navbarPage("Ag-Explorer: Looking at Agricultural Trends in the US",
+                navbarPage("AgxploR: Agricultural Trends & Impacts in the US",
                            tabPanel("Overview",
-                                    mainPanel("The purpose of this app is to allow users to explore agricultural production and waste trends over time in the U.S. We have included estimates for the economic potential for converting these waste streams to biogas and digestate with digesters.")
+                                    mainPanel("The purpose of this app is to allow users to explore agricultural production and related environmental impacts (EI) over time in the U.S. through interactive visualizations of EI data.", width = 8, offset = 4)
                            ),
                            
                            #chloropleth
-                           tabPanel("Trends in Agricultural Production",
+                           tabPanel("National Milk Production Over Time",
                                     sidebarLayout(
-                                        sidebarPanel("WIDGETS!",
+                                        sidebarPanel("Select the year for which you'd like to see milk production mapping - or push the play arrow to watch changes over the entire time line",
                                                      sliderInput(inputId = "pick_year", label = "Choose Year",
                                                                  
                                                                  min = 1970,
@@ -52,11 +52,11 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                                                                  ticks = FALSE,
                                                                  animate = TRUE)),
                                         
-                                        mainPanel("OUTPUT!",
+                                        mainPanel("Popular documentaries such as Cowspiracy have increased public awareness around some of the environmental impacts of meat production - but what about dairy? How do these foods compare to other foods as far as environmental impact? Let's start by looking at national milk production over time - in millions of gallons - to get a sense of how big of an impact milk may have.",
                                                   plotOutput("state_plot"))
                                     )),
                            
-                           tabPanel("Number of Dairy Cows by State",
+                           tabPanel("Comparing Food Impacts by Serving",
                                     sidebarLayout(
                                         sidebarPanel("Time Series Selections",
                                                      checkboxGroupInput(inputId = "pick_state_2",
@@ -68,7 +68,7 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                                                   plotOutput("cows_plot"))
                                     )),
                            
-                           tabPanel("Total U.S. Dairy Cow and Emissions Trends",
+                           tabPanel("Comparing Total Annual Food Impacts",
                                     
                                     sidebarLayout(
                                         sidebarPanel("Time Series Selections",
@@ -78,7 +78,7 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                                         mainPanel("output placeholder",
                                                   plotOutput("emissions_plot"))
                                     )),
-                           tabPanel("Food Impact Comparison",
+                           tabPanel("Food Production Map",
                                     sidebarLayout(
                                         sidebarPanel("Food Selections",
                                                      checkboxGroupInput(inputId = "pick_food",
