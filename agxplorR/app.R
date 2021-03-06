@@ -1,4 +1,4 @@
-# AgExplorer Shiny Structure
+# agxplorR Shiny Structure
 
 
 library(tidyverse)
