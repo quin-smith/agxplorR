@@ -1,0 +1,8 @@
+"Program","Year","Period","Week Ending","Geo Level","State","State ANSI","Ag District","Ag District Code","County","County ANSI","Zip Code","Region","watershed_code","Watershed","Commodity","Data Item","Domain","Domain Category","Value","CV (%)"
+"SURVEY","2020","YEAR","","STATE","IDAHO","16","","","","","","","00000000","","PEAS","PEAS, DRY EDIBLE - PRODUCTION, MEASURED IN CWT","TOTAL","NOT SPECIFIED","850,000",""
+"SURVEY","2020","YEAR","","STATE","MONTANA","30","","","","","","","00000000","","PEAS","PEAS, DRY EDIBLE - PRODUCTION, MEASURED IN CWT","TOTAL","NOT SPECIFIED","9,833,000",""
+"SURVEY","2020","YEAR","","STATE","NEBRASKA","31","","","","","","","00000000","","PEAS","PEAS, DRY EDIBLE - PRODUCTION, MEASURED IN CWT","TOTAL","NOT SPECIFIED","462,000",""
+"SURVEY","2020","YEAR","","STATE","NORTH DAKOTA","38","","","","","","","00000000","","PEAS","PEAS, DRY EDIBLE - PRODUCTION, MEASURED IN CWT","TOTAL","NOT SPECIFIED","7,800,000",""
+"SURVEY","2020","YEAR","","STATE","OTHER STATES","","","","","","","","00000000","","PEAS","PEAS, DRY EDIBLE - PRODUCTION, MEASURED IN CWT","TOTAL","NOT SPECIFIED","0",""
+"SURVEY","2020","YEAR","","STATE","SOUTH DAKOTA","46","","","","","","","00000000","","PEAS","PEAS, DRY EDIBLE - PRODUCTION, MEASURED IN CWT","TOTAL","NOT SPECIFIED","448,000",""
+"SURVEY","2020","YEAR","","STATE","WASHINGTON","53","","","","","","","00000000","","PEAS","PEAS, DRY EDIBLE - PRODUCTION, MEASURED IN CWT","TOTAL","NOT SPECIFIED","2,340,000",""

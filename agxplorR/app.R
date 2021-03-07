@@ -10,7 +10,10 @@ library(tsibble)
 library(feasts)
 library(fable)
 library(broom)
-librar(fmsb)
+library(fmsb)
+library(patchwork)
+library(gridExtra)
+
 
 #sourced
 source(here("R", "milk_trend.R"))
@@ -19,6 +22,7 @@ source(here("R", "emissions_trend.R"))
 source(here("R", "food_impact.R"))
 source(here("R", "milk_us_trend.R"))
 source(here("R", "serv_impact.R"))
+source(here("R", "total_impact.R"))
 
 #read in data
 states <- read_csv(here("data", "fiftystatesCAN.csv"))
@@ -82,21 +86,29 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                                                      "Select the box next to the foods for which you would like to compare environmental impacts",
                                                      br(),
                                                      br(),
-                                                     checkboxGroupInput(inputId = "pick_state_2",
-                                                                        label = "Choose State / Total U.S.",
-                                                                        choices = unique(cows_us_trend$state))),
+                                                     checkboxGroupInput(inputId = "pick_serv",
+                                                                        label = "Choose Food.",
+                                                                        choices = unique(serv_impact$food_group[3:17]),
+                                                                        selected = serv_impact[4,1]
+                                                                        )),
+                                        
                                         mainPanel("Serving up change: The chart below allows you to compare the relative environmental impacts of each food group by serving. This will allow you to see how your food choices can contribute to, or avoid, some of the negative consequences of food production with every meal.",
-                                                  plotOutput("cows_plot"))
+                                                  plotOutput("serv_plot", width = "800px", height = "775px"))
                                     )),
                            # Tab 3: Stacked Multi-variable Bar Charts
                            tabPanel("Comparing Total Annual Food Impacts",
                                     sidebarLayout(
-                                        sidebarPanel("Time Series Selections",
-                                                     checkboxGroupInput(inputId = "pick_emissions",
-                                                                        label = "Choose Emissions Type",
-                                                                        choices = unique(emissions_trend$emissions_type))),
+                                        sidebarPanel("Food Item Selections",
+                                                     checkboxGroupInput(inputId = "pick_food",
+                                                                        label = "Choose Food Item",
+                                                                        choices = unique(total_impact$commodity))),
                                         mainPanel("output placeholder",
-                                                  plotOutput("emissions_plot"))
+                                                  plotOutput("total_production_plot"),
+                                                  plotOutput("total_land_use_plot"),
+                                                  plotOutput("total_ghg_plot"),
+                                                  plotOutput("total_acid_plot"),
+                                                  plotOutput("total_eutroph_plot"),
+                                                  plotOutput("total_stresswater_plot"))
                                     )),
                            # Tab 4: Chloropleth for 8 Foods
                            tabPanel("Food Production Map",
@@ -152,21 +164,84 @@ server <- function(input, output) {
     )
     
     # Tab 2: Spider Charts
+    serv_react <- reactive({
+        serv_impact %>% 
+            filter(food_group %in% c(15,1,input$pick_serv)) %>%
+            column_to_rownames(var = "food_group")
+    })
     
+    legend_react <- reactive({
+        serv_impact %>% 
+            filter(food_group %in% input$pick_serv) %>%
+            column_to_rownames(var = "food_group")
+    })
+    
+    output$serv_plot <- renderPlot({
+        radarchart(serv_react(),
+                   plty = 1,
+                   plwd = 3,
+                   vlcex = 1.3,
+                   pcol = serv_pal
+                   )
+        legend(x = 0.95, y = 0.2, legend = rownames(legend_react()), col = serv_pal, bty = "n", pch=20 , text.col = "black", cex=1.1, pt.cex=3)
+    })
     
     
     # Tab 3: Stacked Multi-variable Bar Charts
     
     # T3: Stacked Bar Plot
-    time_series_emissions_reactive <- reactive({
-        emissions_trend %>%
-            filter(emissions_type %in% input$pick_emissions)
+    total_impact_reactive <- reactive({
+        total_impact %>%
+            filter(commodity %in% input$pick_food)
     })
     
-    output$emissions_plot <- renderPlot(
-        ggplot() +
-            geom_line(data = time_series_emissions_reactive(), aes(x = year, y = total_emissions, color = emissions_type))
+
+    output$total_production_plot <- renderPlot(
+        ggplot(data = total_impact_reactive(), aes(x = commodity, y = value, fill = commodity)) +
+            geom_col() +
+            labs(x = "") +
+            labs(y = "Total Production (millions of kg)")
     )
+    
+    output$total_land_use_plot <- renderPlot(
+        ggplot(data = total_impact_reactive(), aes(x = commodity, y = land_use_total, fill = commodity)) +
+            geom_col() +
+            labs(x = "") +
+            labs(y = "Total Land Use (millions of m^2)")
+    )
+    
+    output$total_ghg_plot <- renderPlot(
+        ggplot(data = total_impact_reactive(), aes(x = commodity, y = ghg_2013_total, fill = commodity)) +
+            geom_col() +
+            labs(x = "") +
+            labs(y = "GHG emissions (millions of kg of CO2 equivalent)")
+
+    )
+    
+    output$total_acid_plot <- renderPlot(
+        ggplot(data = total_impact_reactive(), aes(x = commodity, y = acid_total, fill = commodity)) +
+            geom_col() +
+            labs(x = "") +
+            labs(y = "Acidification (millions of g of SO2 equivalent)")
+    )
+    
+    output$total_eutroph_plot <- renderPlot(
+        ggplot(data = total_impact_reactive(), aes(x = commodity, y = eutroph_total, fill = commodity)) +
+            geom_col() +
+            labs(x = "") +
+            labs(y = "Eutrophication (millions of g PO4^3 equivalent)")
+    )
+    
+    output$total_stresswater_plot <- renderPlot(
+        ggplot(data = total_impact_reactive(), aes(x = commodity, y = stresswater_total, fill = commodity)) +
+            geom_col() +
+            labs(x = "") +
+            labs(y = "Stress-weighted Water Use (millions of L)")
+    )
+    
+   
+    
+ 
     
     # Tab 4: Chloropleth for 8 Foods
     
