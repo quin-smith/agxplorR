@@ -1,0 +1,67 @@
+---
+title: "testing"
+author: "Craig Kopulsky"
+date: "3/6/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(shiny)
+library(bslib)
+library(here)
+library(sf)
+library(tsibble)
+library(feasts)
+library(fable)
+library(broom)
+library(patchwork)
+
+
+source(here("R", "total_impact.R"))
+```
+
+
+
+
+```{r}
+total_production <- ggplot(data = total_impact, aes(x = commodity, y = value, fill = commodity)) +
+  geom_col() +
+  labs(x = "") +
+  labs(y = "Total Production (millions of kg)")
+
+total_land_use <- ggplot(data = total_impact, aes(x = commodity, y = land_use_total, fill = commodity)) +
+  geom_col() +
+  labs(x = "") +
+  labs(y = "Total Land Use (millions of m^2)")
+
+total_ghg <- ggplot(data = total_impact, aes(x = commodity, y = ghg_2013_total, fill = commodity)) +
+  geom_col() +
+  labs(x = "") +
+  labs(y = "GHG emissions (millions of kg of CO2 equivalent)")
+
+total_acid <- ggplot(data = total_impact, aes(x = commodity, y = acid_total, fill = commodity)) +
+  geom_col() +
+  labs(x = "") +
+  labs(y = "Acidification (millions of g of SO2 equivalent)")
+
+total_eutroph <- ggplot(data = total_impact, aes(x = commodity, y = eutroph_total, fill = commodity)) +
+  geom_col() +
+  labs(x = "") +
+  labs(y = "Eutrophication (millions of g PO4^3 equivalent)")
+
+total_stresswater <- ggplot(data = total_impact, aes(x = commodity, y = stresswater_total, fill = commodity)) +
+  geom_col() +
+  labs(x = "") +
+  labs(y = "Stress-weighted Water Use (millions of L)")
+
+total_impact_chart <- (total_production / total_land_use / total_ghg / total_acid / total_eutroph / total_stresswater)
+
+total_impact_chart
+```
+
+
+
+
+
