@@ -1,6 +1,5 @@
 # agxplorR Shiny Structure
 
-
 library(tidyverse)
 library(shiny)
 library(bslib)
