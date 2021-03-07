@@ -13,6 +13,7 @@ library(broom)
 library(fmsb)
 library(patchwork)
 library(gridExtra)
+library(jpeg)
 
 
 #sourced
@@ -43,7 +44,11 @@ milk_state <- milk_tojoin %>%
 ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                 navbarPage("AgxploR: Agricultural Trends & Impacts in the US",
                            tabPanel("Overview",
-                                    mainPanel("The purpose of this app is to allow users to explore agricultural production and related environmental impacts (EI) over time in the U.S. through interactive visualizations of EI data.", width = 12)
+                                    mainPanel(h5("The purpose of this app is to allow users to explore agricultural production and related environmental impacts (EI) over time in the U.S. through interactive visualizations of EI data."),
+                                              img(src = "Fruits Banner.jpg", width = 800, align = "center"),
+                                              br(),
+                                              br(),
+                                              width = 12)
                            ),
                            # Tab 1: Chloropleth and Line Chart
                            tabPanel("Milk Production Over Time",
@@ -143,7 +148,9 @@ server <- function(input, output) {
                          color = "white") +
             scale_fill_continuous(limits=c(min(milk_state$milk_l_e6),max(milk_state$milk_l_e6)), type = "viridis") +
             coord_quickmap() +
-            labs(fill = "Annual milk production \n(10^6 liters)") +
+            labs(fill = "Annual milk production \n(10^6 liters)",
+                 x = "",
+                 y = "") +
             theme_bw()
     )
     
@@ -158,8 +165,8 @@ server <- function(input, output) {
         ggplot() +
             geom_line(data = time_series_milk_reactive(), aes(x = year, y = milk_l_e6, color = state)) +
             labs(color = "",
-                 x = "Year",
-                 y = "Milk Production (millions of liters)") +
+                 x = "\nYear",
+                 y = "Milk Production (millions of liters)\n") +
             theme_bw()
     )
     
@@ -200,21 +207,21 @@ server <- function(input, output) {
         ggplot(data = total_impact_reactive(), aes(x = commodity, y = value, fill = commodity)) +
             geom_col() +
             labs(x = "") +
-            labs(y = "Total Production (millions of kg)")
+            labs(y = "Total Production (millions of kg)\n")
     )
     
     output$total_land_use_plot <- renderPlot(
         ggplot(data = total_impact_reactive(), aes(x = commodity, y = land_use_total, fill = commodity)) +
             geom_col() +
             labs(x = "") +
-            labs(y = "Total Land Use (millions of m^2)")
+            labs(y = "Total Land Use (millions of m^2)\n")
     )
     
     output$total_ghg_plot <- renderPlot(
         ggplot(data = total_impact_reactive(), aes(x = commodity, y = ghg_2013_total, fill = commodity)) +
             geom_col() +
             labs(x = "") +
-            labs(y = "GHG emissions (millions of kg of CO2 equivalent)")
+            labs(y = "GHG emissions (millions of kg of CO2 equivalent)\n")
 
     )
     
@@ -222,21 +229,21 @@ server <- function(input, output) {
         ggplot(data = total_impact_reactive(), aes(x = commodity, y = acid_total, fill = commodity)) +
             geom_col() +
             labs(x = "") +
-            labs(y = "Acidification (millions of g of SO2 equivalent)")
+            labs(y = "Acidification (millions of g of SO2 equivalent)\n")
     )
     
     output$total_eutroph_plot <- renderPlot(
         ggplot(data = total_impact_reactive(), aes(x = commodity, y = eutroph_total, fill = commodity)) +
             geom_col() +
             labs(x = "") +
-            labs(y = "Eutrophication (millions of g PO4^3 equivalent)")
+            labs(y = "Eutrophication (millions of g PO4^3 equivalent)\n")
     )
     
     output$total_stresswater_plot <- renderPlot(
         ggplot(data = total_impact_reactive(), aes(x = commodity, y = stresswater_total, fill = commodity)) +
             geom_col() +
             labs(x = "") +
-            labs(y = "Stress-weighted Water Use (millions of L)")
+            labs(y = "Stress-weighted Water Use (millions of L)\n")
     )
     
    
