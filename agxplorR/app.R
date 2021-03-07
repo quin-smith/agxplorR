@@ -23,6 +23,7 @@ source(here("R", "food_impact.R"))
 source(here("R", "milk_us_trend.R"))
 source(here("R", "serv_impact.R"))
 source(here("R", "total_impact.R"))
+source(here("R", "py_state.R"))
 
 #read in data
 states <- read_csv(here("data", "fiftystatesCAN.csv"))
@@ -111,13 +112,12 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                                                   plotOutput("total_stresswater_plot"))
                                     )),
                            # Tab 4: Chloropleth for 8 Foods
-                           tabPanel("Food Production Map",
+                           tabPanel("Chloropleth for foods",
                                     sidebarLayout(
                                         sidebarPanel("Food Selections",
-                                                     checkboxGroupInput(inputId = "pick_food",
-                                                                        label = "Choose Foods for Comparison",
-                                                                        choices = unique(food_impact$product),
-                                                                        selected = food_impact[1,1])),
+                                                     selectInput("food_select", label = h3("Select box"), 
+                                                                 choices = unique(py_state$commodity)
+                                                     )),
                                         mainPanel("output placeholder",
                                                   plotOutput("impact_chart"))
                                     ))
