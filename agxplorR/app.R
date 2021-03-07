@@ -41,7 +41,7 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                                     mainPanel("The purpose of this app is to allow users to explore agricultural production and related environmental impacts (EI) over time in the U.S. through interactive visualizations of EI data.", width = 12)
                            ),
                            # Tab 1: Chloropleth and Line Chart
-                           tabPanel("National Milk Production Over Time",
+                           tabPanel("Milk Production Over Time",
                                     sidebarLayout(
                                         sidebarPanel(h3("Map of U.S. Milk Production"),
                                             "Select the year for which you'd like to see milk production mapping - or push the play arrow to watch changes over the entire time line.",
@@ -140,6 +140,7 @@ server <- function(input, output) {
             filter(state %in% input$pick_state_2) %>%
             mutate(as.Date(as.character(year), format = "%Y"))
     })
+    
     output$milk_plot <- renderPlot(
         ggplot() +
             geom_line(data = time_series_milk_reactive(), aes(x = year, y = milk_l_e6, color = state)) +
@@ -160,6 +161,7 @@ server <- function(input, output) {
         emissions_trend %>%
             filter(emissions_type %in% input$pick_emissions)
     })
+    
     output$emissions_plot <- renderPlot(
         ggplot() +
             geom_line(data = time_series_emissions_reactive(), aes(x = year, y = total_emissions, color = emissions_type))
@@ -172,6 +174,7 @@ server <- function(input, output) {
         food_impact %>%
             filter(product %in% input$pick_food)
     })
+    
     output$impact_chart <- renderPlot(
         ggplot() +
             geom_col(data = food_impact_reactive(), aes(x = effect_type, y = mean, fill = product),
