@@ -39,18 +39,22 @@ milk_state <- milk_tojoin %>%
     inner_join(states_tojoin, by = "join_state") %>%
     mutate(year = as.numeric(year))
 
-# User Interface
+
+
+# USER INTERFACE
 
 ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                 navbarPage("AgxploR: Agricultural Trends & Impacts in the US",
+                           
+                           # OVERVIEW PANEL: APP PURPOSE
                            tabPanel("Overview",
-                                    mainPanel(h5("The purpose of this app is to allow users to explore agricultural production and related environmental impacts (EI) over time in the U.S. through interactive visualizations of EI data."),
-                                              img(src = "Fruits Banner.jpg", width = 800, align = "center"),
-                                              br(),
-                                              br(),
-                                              width = 12)
+                                    h5("The purpose of this app is to allow users to explore agricultural production and related environmental impacts (EI) over time in the U.S. through interactive visualizations of EI data."),
+                                    br(),
+                                    img(src = "Fruits Banner.jpg", width = "80%", style="display: block; margin-left: auto; margin-right: auto;")
                            ),
-                           # Tab 1: Chloropleth and Line Chart
+                          
+                           
+                            # TAB 1: Chloropleth and Line Chart
                            tabPanel("Milk Production Over Time",
                                     sidebarLayout(
                                         sidebarPanel(h3("Map of U.S. Milk Production"),
@@ -84,7 +88,9 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                                                   plotOutput("state_plot"),
                                                   plotOutput("milk_plot"))
                                     )),
-                           # Tab 2: Spider Charts
+                           
+                           
+                           # TAB 2: Spider Charts
                            tabPanel("Comparing Food Impacts by Serving",
                                     sidebarLayout(
                                         sidebarPanel(h3("Environmental Impact by Food"),
@@ -100,7 +106,9 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                                         mainPanel("Serving up change: The chart below allows you to compare the relative environmental impacts of each food group by serving. This will allow you to see how your food choices can contribute to, or avoid, some of the negative consequences of food production with every meal.",
                                                   plotOutput("serv_plot", width = "800px", height = "775px"))
                                     )),
-                           # Tab 3: Stacked Multi-variable Bar Charts
+                           
+                           
+                           # TAB 3: Stacked Multi-variable Bar Charts
                            tabPanel("Comparing Total Annual Food Impacts",
                                     sidebarLayout(
                                         sidebarPanel("Food Item Selections",
@@ -115,7 +123,9 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                                                   plotOutput("total_eutroph_plot"),
                                                   plotOutput("total_stresswater_plot"))
                                     )),
-                           # Tab 4: Chloropleth for 8 Foods
+                           
+                           
+                           # TAB 4: Chloropleth for 8 Foods
                            tabPanel("Chloropleth for foods",
                                     sidebarLayout(
                                         sidebarPanel("Food Selections",
@@ -128,7 +138,7 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                 ))
 
 
-# Server
+# SERVER
 
 server <- function(input, output) {
     
