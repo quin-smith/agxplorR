@@ -10,8 +10,10 @@ library(tsibble)
 library(feasts)
 library(fable)
 library(broom)
+library(fmsb)
 library(patchwork)
 library(gridExtra)
+
 
 #sourced
 source(here("R", "milk_trend.R"))
@@ -84,11 +86,14 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                                                      "Select the box next to the foods for which you would like to compare environmental impacts",
                                                      br(),
                                                      br(),
-                                                     checkboxGroupInput(inputId = "pick_state_2",
-                                                                        label = "Choose State / Total U.S.",
-                                                                        choices = unique(cows_us_trend$state))),
+                                                     checkboxGroupInput(inputId = "pick_serv",
+                                                                        label = "Choose Food.",
+                                                                        choices = unique(serv_impact$food_group[3:17]),
+                                                                        selected = serv_impact[4,1]
+                                                                        )),
+                                        
                                         mainPanel("Serving up change: The chart below allows you to compare the relative environmental impacts of each food group by serving. This will allow you to see how your food choices can contribute to, or avoid, some of the negative consequences of food production with every meal.",
-                                                  plotOutput("cows_plot"))
+                                                  plotOutput("serv_plot", width = "800px", height = "775px"))
                                     )),
                            # Tab 3: Stacked Multi-variable Bar Charts
                            tabPanel("Comparing Total Annual Food Impacts",
@@ -159,7 +164,27 @@ server <- function(input, output) {
     )
     
     # Tab 2: Spider Charts
+    serv_react <- reactive({
+        serv_impact %>% 
+            filter(food_group %in% c(15,1,input$pick_serv)) %>%
+            column_to_rownames(var = "food_group")
+    })
     
+    legend_react <- reactive({
+        serv_impact %>% 
+            filter(food_group %in% input$pick_serv) %>%
+            column_to_rownames(var = "food_group")
+    })
+    
+    output$serv_plot <- renderPlot({
+        radarchart(serv_react(),
+                   plty = 1,
+                   plwd = 3,
+                   vlcex = 1.3,
+                   pcol = serv_pal
+                   )
+        legend(x = 0.95, y = 0.2, legend = rownames(legend_react()), col = serv_pal, bty = "n", pch=20 , text.col = "black", cex=1.1, pt.cex=3)
+    })
     
     
     # Tab 3: Stacked Multi-variable Bar Charts
