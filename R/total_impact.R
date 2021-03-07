@@ -111,7 +111,7 @@ food_impact_fct <- food_impact %>%
   rename("commodity" = product)
   
   
-food_total_impact <- commodity_py %>% 
+total_impact <- commodity_py %>% 
   inner_join(food_impact_fct, by = "commodity") %>% 
   mutate(land_use_total = as.numeric(value) * as.numeric(land_use_mu)) %>% 
   mutate(ghg_2013_total = as.numeric(value) * as.numeric(ghg_2013_mu)) %>% 
@@ -121,6 +121,8 @@ food_total_impact <- commodity_py %>%
   mutate(freshwater_total = as.numeric(value) * as.numeric(freshwater_mu)) %>% 
   mutate(stresswater_total = as.numeric(value) * as.numeric(stresswater_mu)) %>% 
   select(commodity, value, land_use_total, ghg_2013_total, ghg_2007_total, acid_total, eutroph_total, freshwater_total, stresswater_total)
+
+
 
 
 
