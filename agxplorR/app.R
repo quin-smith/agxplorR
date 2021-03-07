@@ -12,8 +12,6 @@ library(broom)
 library(fmsb)
 library(patchwork)
 library(gridExtra)
-library(jpeg)
-
 
 #sourced
 source(here("R", "milk_trend.R"))
@@ -28,7 +26,7 @@ source(here("R", "py_state.R"))
 #read in data
 states <- read_csv(here("data", "fiftystatesCAN.csv"))
 
-#wrangling
+#wrangling/joining
 states_tojoin <- states %>%
     mutate(join_state = toupper(states$region))
 
@@ -38,6 +36,12 @@ milk_tojoin <- milk_trend %>%
 milk_state <- milk_tojoin %>%
     inner_join(states_tojoin, by = "join_state") %>%
     mutate(year = as.numeric(year))
+
+food_tojoin <- py_state %>% 
+    mutate(join_state = toupper(py_state$state))
+
+food_state <- food_tojoin %>% 
+    inner_join(states_tojoin, by = "join_state")
 
 # User Interface
 
@@ -252,16 +256,21 @@ server <- function(input, output) {
     # Tab 4: Chloropleth for 8 Foods
     
     # T4: Chloropleth
-    food_impact_reactive <- reactive({
-        food_impact %>%
-            filter(product %in% input$pick_food)
+    impact_react <- reactive({
+        food_state %>%
+            filter(commodity %in% input$food_select)
     })
     
     output$impact_chart <- renderPlot(
         ggplot() +
-            geom_col(data = food_impact_reactive(), aes(x = effect_type, y = mean, fill = product),
-                     position = "dodge")
-        #facet_grid(.~effect_type, scales = "free_y")
+            geom_polygon(data = impact_react(), aes(x = long, y = lat, group = group, fill = production),
+                         color = "white") +
+            scale_fill_continuous(limits=c(min(food_state$production),max(food_state$production)), type = "viridis") +
+            coord_quickmap() +
+            labs(fill = "Annual commidity production \n(10^6)",
+                 x = "",
+                 y = "") +
+            theme_bw()
     )
 }
 
