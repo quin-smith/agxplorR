@@ -142,13 +142,18 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                            
                            # TAB 4: Chloropleth for 8 Foods
                            tabPanel("Chloropleth for foods",
+                                    "The below cloropleth allows you to view the distribution in agricultural commodity production by state in the U.S. This can give an indication of where environmental impacts associated with each commodity are originating from. While GHG emissions will have a global impact regardless of their point of origin, other impacts such as eutrophication and acidification may have more local or regional impacts to the area where commodities are produced.",
+                                    br(),
+                                    br(),
+                                    "Data is the last year of production data avialable for each agricultural commodity from the USDA NASS.",
+                                    br(),
+                                    br(),
                                     sidebarLayout(
                                         sidebarPanel("Food Selections",
                                                      selectInput("food_select", label = h3("Select box"), 
                                                                  choices = unique(py_state$commodity)
                                                      )),
-                                        mainPanel("output placeholder",
-                                                  plotOutput("impact_chart"))
+                                        mainPanel(plotOutput("impact_chart"))
                                     ))
                 ))
 
@@ -231,21 +236,27 @@ server <- function(input, output) {
         ggplot(data = total_impact_reactive(), aes(x = commodity, y = value, fill = commodity)) +
             geom_col() +
             labs(x = "") +
-            labs(y = "Total Production (millions of kg)\n")
+            labs(y = "Total Production (millions of kg)\n") +
+            labs(fill = "") +
+            theme_bw()
     )
     
     output$total_land_use_plot <- renderPlot(
         ggplot(data = total_impact_reactive(), aes(x = commodity, y = land_use_total, fill = commodity)) +
             geom_col() +
             labs(x = "") +
-            labs(y = "Total Land Use (millions of m^2)\n")
+            labs(y = "Total Land Use (millions of m^2)\n") +
+            labs(fill = "") +
+            theme_bw()
     )
     
     output$total_ghg_plot <- renderPlot(
         ggplot(data = total_impact_reactive(), aes(x = commodity, y = ghg_2013_total, fill = commodity)) +
             geom_col() +
             labs(x = "") +
-            labs(y = "GHG emissions (millions of kg of CO2 equivalent)\n")
+            labs(y = "GHG emissions (millions of kg of CO2 equivalent)\n") +
+            labs(fill = "") +
+            theme_bw()
 
     )
     
@@ -253,21 +264,27 @@ server <- function(input, output) {
         ggplot(data = total_impact_reactive(), aes(x = commodity, y = acid_total, fill = commodity)) +
             geom_col() +
             labs(x = "") +
-            labs(y = "Acidification (millions of g of SO2 equivalent)\n")
+            labs(y = "Acidification (millions of g of SO2 equivalent)\n") +
+            labs(fill = "") +
+            theme_bw()
     )
     
     output$total_eutroph_plot <- renderPlot(
         ggplot(data = total_impact_reactive(), aes(x = commodity, y = eutroph_total, fill = commodity)) +
             geom_col() +
             labs(x = "") +
-            labs(y = "Eutrophication (millions of g PO4^3 equivalent)\n")
+            labs(y = "Eutrophication (millions of g PO4^3 equivalent)\n") +
+            labs(fill = "") +
+            theme_bw()
     )
     
     output$total_stresswater_plot <- renderPlot(
         ggplot(data = total_impact_reactive(), aes(x = commodity, y = stresswater_total, fill = commodity)) +
             geom_col() +
             labs(x = "") +
-            labs(y = "Stress-weighted Water Use (millions of L)\n")
+            labs(y = "Stress-weighted Water Use (millions of L)\n") +
+            labs(fill = "") +
+            theme_bw()
     )
     
    
