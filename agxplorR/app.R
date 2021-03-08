@@ -48,9 +48,11 @@ food_state <- food_tojoin %>%
 # USER INTERFACE
 
 ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
-                navbarPage("AgxploR: Agricultural Trends & Impacts in the US",
+                navbarPage("agxplorR: Agricultural Trends & Impacts in the US",
+
                            
                            # OVERVIEW PANEL: APP PURPOSE
+
                            tabPanel("Overview",
                                     h5("The purpose of this app is to allow users to explore agricultural production and related environmental impacts (EI) over time in the U.S. through interactive visualizations of EI data."),
                                     br(),
@@ -272,14 +274,22 @@ server <- function(input, output) {
             filter(commodity %in% input$food_select)
     })
     
+    othst_react <- reactive({
+        thing <- py_state %>% 
+            filter(commodity %in% input$food_select & state == "OTHER STATES") %>% 
+            select(production)
+            
+        return(thing[[1]])
+    })
+    
     output$impact_chart <- renderPlot(
         ggplot() +
             geom_polygon(data = impact_react(), aes(x = long, y = lat, group = group, fill = production),
                          color = "white") +
             scale_fill_continuous(limits=c(min(food_state$production),max(food_state$production)), type = "viridis") +
             coord_quickmap() +
-            labs(fill = "Annual commidity production \n(10^6)",
-                 x = "",
+            labs(fill = "Annual commidity production \n(10^6 kilograms)",
+                 x = sprintf("%f million kilograms in all other states", othst_react()),
                  y = "") +
             theme_bw()
     )
