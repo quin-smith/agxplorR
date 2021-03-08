@@ -99,6 +99,8 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                                                      )),
                                         mainPanel(
                                                   plotOutput("state_plot"),
+                                                  br(),
+                                                  br(),
                                                   plotOutput("milk_plot"))
                                     )),
                            
@@ -212,6 +214,8 @@ server <- function(input, output) {
                    plty = 1,
                    plwd = 3,
                    vlcex = 1.3,
+                   cglwd = 2,
+                   cglcol = "darkgray",
                    pcol = serv_pal
                    )
         legend(x = 0.95, y = 0.2, legend = rownames(legend_react()), col = serv_pal, bty = "n", pch=20 , text.col = "black", cex=1.1, pt.cex=3)
@@ -287,7 +291,7 @@ server <- function(input, output) {
             filter(commodity %in% input$food_select & state == "OTHER STATES") %>% 
             select(production)
             
-        return(thing[[1]])
+        return(round(thing[[1]], digits = 0))
     })
     
     output$impact_chart <- renderPlot(
@@ -297,7 +301,7 @@ server <- function(input, output) {
             scale_fill_continuous(limits=c(min(food_state$production),max(food_state$production)), type = "viridis") +
             coord_quickmap() +
             labs(fill = "Annual commidity production \n(10^6 kilograms)",
-                 x = sprintf("%f million kilograms in all other states", othst_react()),
+                 x = sprintf("%i million kilograms in all other states", othst_react()),
                  y = "") +
             theme_bw()
     )

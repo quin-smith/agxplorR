@@ -9,10 +9,10 @@ serv_impact <- read_excel(here("data", "pnas.1906908116.sd01.xlsx")) %>%
   select(food_group, ghg_emissions_rank, land_use_rank, 
          eutrophication_potential_ep_rank, acidification_potential_ap_rank, 
          scarcity_weighted_water_use_rank) %>% 
-  rename("GHG" = ghg_emissions_rank, 
+  rename("GHG Emissions" = ghg_emissions_rank, 
          "Land Use" = land_use_rank, 
-         "EP" = eutrophication_potential_ep_rank, 
-         "AP" = acidification_potential_ap_rank, 
+         "Eutrophication" = eutrophication_potential_ep_rank, 
+         "Acidification" = acidification_potential_ap_rank, 
          "Water Use" = scarcity_weighted_water_use_rank)
 
 serv_impact <- rbind(rep(15,6), rep(1,6), serv_impact)
