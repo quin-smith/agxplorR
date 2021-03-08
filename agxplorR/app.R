@@ -54,14 +54,24 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                            # OVERVIEW PANEL: APP PURPOSE
 
                            tabPanel("Overview",
-                                    h5("The purpose of this app is to allow users to explore agricultural production and related environmental impacts (EI) over time in the U.S. through interactive visualizations of EI data."),
+                                    h3("agxplorR: Purpose and Background"), 
+                                    p("Agriculture is a major source of greenhouse gas emissions, water usage and contamination, and land use change around the globe. The food choices we make individually and the agricultural practices we rely on collectively, have a major impact on our environment. This app was created to allow users to explore agricultural production and related environmental impacts (EI) over time in the U.S. through interactive visualizations. Explore the the papers and data sources cited below for more detailed background and in depth explanation of data and findings."),
                                     br(),
-                                    img(src = "Fruits Banner.jpg", width = "80%", style="display: block; margin-left: auto; margin-right: auto;")
+                                    img(src = "Fruits Banner.jpg", width = "80%", style="display: block; margin-left: auto; margin-right: auto;"),
+                                    br(),
+                                    h3("Citations"),
+                                    br(),
+                                    p()
                            ),
+                           
                           
                            
                             # TAB 1: Chloropleth and Line Chart
                            tabPanel("Milk Production Over Time",
+                                    "Popular documentaries such as Cowspiracy have increased public awareness around some of the environmental impacts of meat production - but what about dairy? How do dairy foods compare to other foods as far as environmental impact? Let's start by looking at national milk production over time - in millions of liters - to get a sense of how the impacts of milk and dairy production may be distributed by state.",
+                                    br(),
+                                    br(),
+                                    br(),
                                     sidebarLayout(
                                         sidebarPanel(h3("Map of U.S. Milk Production"),
                                             "Select the year for which you'd like to see milk production mapping - or push the play arrow to watch changes over the entire time line.",
@@ -78,9 +88,6 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                                                      br(),
                                                      br(),
                                                      br(),
-                                                     br(),
-                                                     br(),
-                                                     br(),
                                             h3("Dairy Production by State Over Time"),
                                                      "Select the box next to the states for which you would like to compare dairy production over time.",
                                                      br(),
@@ -90,7 +97,7 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                                                                         choices = unique(milk_us_trend$state),
                                                                         selected = milk_us_trend[1,2]
                                                      )),
-                                        mainPanel("Popular documentaries such as Cowspiracy have increased public awareness around some of the environmental impacts of meat production - but what about dairy? How do dairy foods compare to other foods as far as environmental impact? Let's start by looking at national milk production over time - in millions of liters - to get a sense of how the impacts of milk and dairy production may be distributed by state.",
+                                        mainPanel(
                                                   plotOutput("state_plot"),
                                                   plotOutput("milk_plot"))
                                     )),
@@ -98,9 +105,11 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                            
                            # TAB 2: Spider Charts
                            tabPanel("Comparing Food Impacts by Serving",
+                                    h3("Serving up Change"),
+                                    p("The chart above allows you to visually compare the relative environmental impacts of each food group. Foods are rank-ordered by environmental impact per serving of food consumed per day. Lower environmental impacts are considered better and higher environemntal impacts are considered worse. As with the original data from Clark et.al. (2019), 'Foods are plotted so that the food group with the lowest mean impact for each environmental indicator has a value of 1 (innermost circle), and the food group with the highest mean impact for a given indicator has a value of 15 (outermost circle)'. This will allow you to compare and adjust your food choices to based on the environmental consequences of food production, and help you avoid contributing to emissions with every meal."),
                                     sidebarLayout(
                                         sidebarPanel(h3("Environmental Impact by Food"),
-                                                     "Select the box next to the foods for which you would like to compare environmental impacts",
+                                                     "Select the box next to the foods for which you would like to compare environmental impacts. SSBs is an abbreviation for sugar sweetened beverages.",
                                                      br(),
                                                      br(),
                                                      checkboxGroupInput(inputId = "pick_serv",
@@ -109,8 +118,8 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                                                                         selected = serv_impact[4,1]
                                                                         )),
                                         
-                                        mainPanel("Serving up change: The chart below allows you to compare the relative environmental impacts of each food group by serving. This will allow you to see how your food choices can contribute to, or avoid, some of the negative consequences of food production with every meal.",
-                                                  plotOutput("serv_plot", width = "800px", height = "775px"))
+                                        mainPanel(
+                                            plotOutput("serv_plot", width = "800px", height = "775px"))
                                     )),
                            
                            
@@ -182,7 +191,6 @@ server <- function(input, output) {
             labs(color = "",
                  x = "\nYear",
                  y = "Milk Production (millions of liters)\n") +
-            expand_limits(y=c(0, NA)) +
             theme_bw()
     )
     
