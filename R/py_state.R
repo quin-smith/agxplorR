@@ -3,6 +3,7 @@ library(here)
 library(stringr)
 library(janitor)
 library(tidytext)
+library(naniar)
 
 py_state_chicken <- read.csv(here("data","data_py_state","chicken_py_state.csv")) %>% 
   clean_names() %>% 
@@ -90,9 +91,10 @@ py_state <- py_state_pork %>%
                         Potatoes,
                         Rice),
                names_to = "commodity",
-               values_to = "production")
+               values_to = "production") 
 
-
+py_state <- py_state %>% 
+  replace_with_na(replace = list(production = 0.000))
 
 
 
