@@ -180,6 +180,7 @@ server <- function(input, output) {
             labs(color = "",
                  x = "\nYear",
                  y = "Milk Production (millions of liters)\n") +
+            expand_limits(y=c(0, NA)) +
             theme_bw()
     )
     
