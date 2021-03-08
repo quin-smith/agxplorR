@@ -91,7 +91,8 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                            
                             # TAB 1: Chloropleth and Line Chart
                            tabPanel("Milk Production Over Time",
-                                    "Popular documentaries such as Cowspiracy have increased public awareness around some of the environmental impacts of meat production - but what about dairy? How do dairy foods compare to other foods as far as environmental impact? Let's start by looking at national milk production over time - in millions of liters - to get a sense of how the impacts of milk and dairy production may be distributed by state.",
+                                    h3("Got Milk?"),
+                                    "Popular documentaries such as Cowspiracy have increased public awareness around some of the environmental impacts of meat production - but what about dairy? How do dairy foods compare to other foods with respect to environmental impact? Let's start by looking at national milk production over time - in millions of liters - to get a sense of how milk production is distributed by state, and how it has changed over time.",
                                     br(),
                                     br(),
                                     sidebarLayout(
@@ -129,7 +130,7 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                            # TAB 2: Spider Charts
                            tabPanel("Comparing Food Impacts by Serving",
                                     h3("Serving up Change"),
-                                    p("The chart below allows you to visually compare the relative environmental impacts of each food group. Foods are rank-ordered by environmental impact per serving of food consumed per day. Lower environmental impacts are considered better and higher environemntal impacts are considered worse. As with the original data from Clark et.al. (2019), 'Foods are plotted so that the food group with the lowest mean impact for each environmental indicator has a value of 1 (innermost circle), and the food group with the highest mean impact for a given indicator has a value of 15 (outermost circle)'. This will allow you to compare and adjust your food choices to based on the environmental consequences of food production, and help you avoid contributing to emissions with every meal."),
+                                    p("The chart below allows you to visually compare the relative environmental impacts of each food group. Foods are rank-ordered by environmental impact per serving of food consumed per day. Lower environmental impacts are considered better and higher environmental impacts are considered worse. As with the original data from Clark et.al. (2019), 'Foods are plotted so that the food group with the lowest mean impact for each environmental indicator has a value of 1 (innermost circle), and the food group with the highest mean impact for a given indicator has a value of 15 (outermost circle)'. This will allow you to better understand how your food choices are effecting the environment."),
                                     sidebarLayout(
                                         sidebarPanel(h3("Environmental Impact by Food"),
                                                      "Select the box next to the foods for which you would like to compare environmental impacts. SSBs is an abbreviation for sugar sweetened beverages.",
@@ -149,7 +150,7 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                            # TAB 3: Stacked Multi-variable Bar Charts
                            tabPanel("Comparing Annual Food Impacts",
                                     h3("How Do These Ag Commodities Stack Up?"),
-                                    p("Now that you have had a chance to compare environmental impacts of food per serving, let's look at things are a larger scale. The bar graphs below compare the total annual production of a selection of different agricultural commodities and their related environmental impacts in the United States. Production data was obtained from the USDA and emissions data for each food type were drawn from Poore and Nemecek (2018). The production volumes are for the most recent year of available data for each commodity, and in all cases were for either 2019 or 2020."),
+                                    p("Now that you have had a chance to compare environmental impacts of food per serving, let's look at things are a larger scale. The bar graphs below compare the total annual production of a selection of agricultural commodities and their related environmental impacts in the United States. Production data was obtained from the USDA and emissions data for each food type were drawn from Poore and Nemecek (2018). The production volumes are for the most recent year of available data for each commodity, and in all cases were for either 2019 or 2020."),
                                     sidebarLayout(
                                         sidebarPanel(h3("Comparing Total Annual Environmental Impact and Production of Foods"),
                                                      "Select the box next to the foods for which you would like to compare environmental impacts and production.",
@@ -158,7 +159,7 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                                                      checkboxGroupInput(inputId = "pick_food",
                                                                         label = "Choose Food Item",
                                                                         choices = unique(total_impact$commodity),
-                                                                        selected = total_impact$commodity[4])),
+                                                                        selected = total_impact$commodity[4:5])),
                                         mainPanel(
                                                   plotOutput("total_production_plot"),
                                                   plotOutput("total_land_use_plot"),
@@ -170,11 +171,12 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                            
                            
                            # TAB 4: Chloropleth for 8 Foods
-                           tabPanel("Chloropleth for foods",
-                                    "The below cloropleth allows you to view the distribution in agricultural commodity production by state in the U.S. This can give an indication of where environmental impacts associated with each commodity are originating from. While GHG emissions will have a global impact regardless of their point of origin, other impacts such as eutrophication and acidification may have more local or regional impacts to the area where commodities are produced.",
+                           tabPanel("Mapping Food Production",
+                                    h3("Where Does Your Food Come From?"),
+                                    "The map below allows you to view the distribution of agricultural commodity production by state in the U.S. This can indicate where environmental impacts associated with each commodity originate. While GHG emissions will have a global impact regardless of their point of origin, other impacts such as eutrophication and acidification may have more local or regional impacts to the area where commodities are produced.",
                                     br(),
                                     br(),
-                                    "Data is the last year of production data avialable for each agricultural commodity from the USDA NASS.",
+                                    "Production data was obtained from the USDA for the most recent year available for each agricultural commodity.",
                                     br(),
                                     br(),
                                     sidebarLayout(
@@ -226,7 +228,8 @@ server <- function(input, output) {
             labs(color = "",
                  x = "\nYear",
                  y = "Milk Production (millions of liters)\n") +
-            theme_bw()
+            theme_bw() +
+            expand_limits(y=c(0, NA))
     )
     
     # Tab 2: Spider Charts
