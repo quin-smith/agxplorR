@@ -1,4 +1,4 @@
-# agxplorR Shiny Structure
+# agxplorR Shiny App
 
 library(tidyverse)
 library(shiny)
@@ -55,7 +55,7 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
 
                            tabPanel("Overview",
                                     h3("agxplorR: Purpose and Background"), 
-                                    p("Agriculture is a major contributer to greenhouse gas emissions, water usage and contamination, and land use change around the globe. The food choices we make individually and the agricultural practices we rely on collectively have a major impact on our environment. This app was created to allow users to explore agricultural production and related environmental impacts (EI) over time in the U.S. through interactive visualizations. See the papers and data sources cited below for more detailed background and in depth explanation of data and findings."),
+                                    p("Agriculture is a major contributer to greenhouse gas emissions, water usage and contamination, and land use change around the globe. The food choices we make individually and the agricultural practices we rely on collectively have a major impact on our environment. This app was created to allow users to explore agricultural production and related environmental impacts (EI) over time in the U.S. through interactive visualizations. See the papers and data sources cited below for more detailed background and in-depth explanations of data and findings."),
                                     br(),
                                     img(src = "Fruits Banner.jpg", width = "80%", style="display: block; margin-left: auto; margin-right: auto;"),
                                     br(),
