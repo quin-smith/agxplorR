@@ -55,7 +55,7 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
 
                            tabPanel("Overview",
                                     h3("agxplorR: Purpose and Background"), 
-                                    p("Agriculture is a major source of greenhouse gas emissions, water usage and contamination, and land use change around the globe. The food choices we make individually and the agricultural practices we rely on collectively, have a major impact on our environment. This app was created to allow users to explore agricultural production and related environmental impacts (EI) over time in the U.S. through interactive visualizations. Explore the the papers and data sources cited below for more detailed background and in depth explanation of data and findings."),
+                                    p("Agriculture is a major contributer to greenhouse gas emissions, water usage and contamination, and land use change around the globe. The food choices we make individually and the agricultural practices we rely on collectively have a major impact on our environment. This app was created to allow users to explore agricultural production and related environmental impacts (EI) over time in the U.S. through interactive visualizations. See the papers and data sources cited below for more detailed background and in depth explanation of data and findings."),
                                     br(),
                                     img(src = "Fruits Banner.jpg", width = "80%", style="display: block; margin-left: auto; margin-right: auto;"),
                                     br(),
@@ -92,7 +92,7 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                             # TAB 1: Chloropleth and Line Chart
                            tabPanel("Milk Production Over Time",
                                     h3("Got Milk?"),
-                                    "Popular documentaries such as Cowspiracy have increased public awareness around some of the environmental impacts of meat production - but what about dairy? How do dairy foods compare to other foods with respect to environmental impact? Let's start by looking at national milk production over time - in millions of liters - to get a sense of how milk production is distributed by state, and how it has changed over time.",
+                                    "Popular documentaries such as Cowspiracy have increased public awareness around some of the environmental impacts of meat production - but what about dairy? How do dairy foods compare to other foods with respect to environmental impact? Let's start by looking at milk production - in millions of liters - to get a sense of how milk production is distributed by state, and how it has changed over time. Production data was sourced from the USDA.",
                                     br(),
                                     br(),
                                     sidebarLayout(
@@ -130,7 +130,7 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                            # TAB 2: Spider Charts
                            tabPanel("Comparing Food Impacts by Serving",
                                     h3("Serving up Change"),
-                                    p("The chart below allows you to visually compare the relative environmental impacts of each food group. Foods are rank-ordered by environmental impact per serving of food consumed per day. Lower environmental impacts are considered better and higher environmental impacts are considered worse. As with the original data from Clark et.al. (2019), 'Foods are plotted so that the food group with the lowest mean impact for each environmental indicator has a value of 1 (innermost circle), and the food group with the highest mean impact for a given indicator has a value of 15 (outermost circle)'. This will allow you to better understand how your food choices are effecting the environment."),
+                                    p("The chart below allows you to visually compare the relative environmental impacts of each food group. Foods are rank-ordered by environmental impact per serving of food consumed, per day. Lower environmental impacts are considered better and higher environmental impacts are considered worse. As with the original data from Clark et.al. (2019), 'Foods are plotted so that the food group with the lowest mean impact for each environmental indicator has a value of 1 (innermost circle), and the food group with the highest mean impact for a given indicator has a value of 15 (outermost circle)'. This will allow you to better understand how your food choices are effecting the environment."),
                                     sidebarLayout(
                                         sidebarPanel(h3("Environmental Impact by Food"),
                                                      "Select the box next to the foods for which you would like to compare environmental impacts. SSBs is an abbreviation for sugar sweetened beverages.",
