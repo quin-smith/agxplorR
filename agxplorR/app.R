@@ -117,8 +117,8 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                                                      checkboxGroupInput(inputId = "pick_state_2",
                                                                         label = "Choose State / Total U.S.",
                                                                         choices = unique(milk_us_trend$state),
-                                                                        selected = milk_us_trend[1,2]
-                                                     )),
+                                                                        selected = milk_us_trend[1,2])
+                                            ),
                                         mainPanel(
                                                   plotOutput("state_plot"),
                                                   br(),
