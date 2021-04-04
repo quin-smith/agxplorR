@@ -124,8 +124,8 @@ ui <- fluidPage(theme = bs_theme(version = 4, bootswatch = "minty"),
                                                      checkboxGroupInput(inputId = "pick_state_2",
                                                                         label = "Choose State / Total U.S.",
                                                                         choices = unique(milk_us_trend$state),
-                                                                        selected = milk_us_trend[1,2]
-                                                     )),
+                                                                        selected = milk_us_trend[1,2])
+                                            ),
                                         mainPanel(
                                                   plotOutput("state_plot"),
                                                   br(),
@@ -219,7 +219,9 @@ server <- function(input, output) {
             labs(fill = "Annual milk production \n(10^6 liters)",
                  x = "",
                  y = "") +
-            theme_bw()
+            theme_bw() +
+            theme(legend.title = element_text(size = 16),
+                  legend.text = element_text(size = 16))
     )
     
     # T1: Line graph - Dairy
@@ -236,6 +238,9 @@ server <- function(input, output) {
                  x = "\nYear",
                  y = "Milk Production (millions of liters)\n") +
             theme_bw() +
+            theme(axis.title.x = element_text(size = 16),
+                  axis.title.y = element_text(size = 16),
+                  legend.text = element_text(size = 16)) +
             expand_limits(y=c(0, NA))
     )
     
@@ -388,7 +393,10 @@ server <- function(input, output) {
             labs(fill = "Annual commidity production \n(10^6 kilograms)",
                  x = sprintf("%i million kilograms in all other states", othst_react()),
                  y = "") +
-            theme_bw()
+            theme_bw() +
+            theme(axis.title.x = element_text(size = 16),
+                  legend.text = element_text(size = 16),
+                  legend.title = element_text(size = 16))
     )
 }
 
