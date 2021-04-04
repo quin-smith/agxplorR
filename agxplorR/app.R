@@ -212,7 +212,9 @@ server <- function(input, output) {
             labs(fill = "Annual milk production \n(10^6 liters)",
                  x = "",
                  y = "") +
-            theme_bw()
+            theme_bw() +
+            theme(legend.title = element_text(size = 16),
+                  legend.text = element_text(size = 16))
     )
     
     # T1: Line graph - Dairy
@@ -229,6 +231,9 @@ server <- function(input, output) {
                  x = "\nYear",
                  y = "Milk Production (millions of liters)\n") +
             theme_bw() +
+            theme(axis.title.x = element_text(size = 16),
+                  axis.title.y = element_text(size = 16),
+                  legend.text = element_text(size = 16)) +
             expand_limits(y=c(0, NA))
     )
     
@@ -351,7 +356,10 @@ server <- function(input, output) {
             labs(fill = "Annual commidity production \n(10^6 kilograms)",
                  x = sprintf("%i million kilograms in all other states", othst_react()),
                  y = "") +
-            theme_bw()
+            theme_bw() +
+            theme(axis.title.x = element_text(size = 16),
+                  legend.text = element_text(size = 16),
+                  legend.title = element_text(size = 16))
     )
 }
 
