@@ -329,8 +329,6 @@ server <- function(input, output) {
     
    
     
- 
-    
     # Tab 4: Chloropleth for 8 Foods
     
     # T4: Chloropleth
