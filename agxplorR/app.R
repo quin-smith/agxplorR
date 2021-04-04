@@ -271,27 +271,42 @@ server <- function(input, output) {
         ggplot(data = total_impact_reactive(), aes(x = commodity, y = value, fill = commodity)) +
             geom_col() +
             labs(x = "") +
-            labs(y = "Total Production (millions of kg)\n") +
+            labs(y = "millions of kg\n") +
             labs(fill = "") +
-            theme_bw()
+            labs(title = "Total Production") +
+            theme_bw() +
+            theme(legend.position = "none",
+                  axis.text.y = element_text(size=16),
+                  axis.text.x = element_text(size=16),
+                  title = element_text(size=20))
     )
     
     output$total_land_use_plot <- renderPlot(
         ggplot(data = total_impact_reactive(), aes(x = commodity, y = land_use_total, fill = commodity)) +
             geom_col() +
             labs(x = "") +
-            labs(y = "Total Land Use (millions of m^2)\n") +
+            labs(y = "millions of m^2\n") +
             labs(fill = "") +
-            theme_bw()
+            labs(title = "Total Land Use") +
+            theme_bw() +
+            theme(legend.position = "none",
+                  axis.text.y = element_text(size=16),
+                  axis.text.x = element_text(size=16),
+                  title = element_text(size=20))
     )
     
     output$total_ghg_plot <- renderPlot(
         ggplot(data = total_impact_reactive(), aes(x = commodity, y = ghg_2013_total, fill = commodity)) +
             geom_col() +
             labs(x = "") +
-            labs(y = "GHG emissions (millions of kg of CO2 equivalent)\n") +
+            labs(y = "millions of kg of CO2 equivalent\n") +
             labs(fill = "") +
-            theme_bw()
+            labs(title = "GHG Emissions") +
+            theme_bw() +
+            theme(legend.position = "none",
+                  axis.text.y = element_text(size=16),
+                  axis.text.x = element_text(size=16),
+                  title = element_text(size=20))
 
     )
     
@@ -299,27 +314,42 @@ server <- function(input, output) {
         ggplot(data = total_impact_reactive(), aes(x = commodity, y = acid_total, fill = commodity)) +
             geom_col() +
             labs(x = "") +
-            labs(y = "Acidification (millions of g of SO2 equivalent)\n") +
+            labs(y = "millions of g of SO2 equivalent\n") +
             labs(fill = "") +
-            theme_bw()
+            labs(title = "Acidification") +
+            theme_bw() +
+            theme(legend.position = "none",
+                  axis.text.y = element_text(size=16),
+                  axis.text.x = element_text(size=16),
+                  title = element_text(size=20))
     )
     
     output$total_eutroph_plot <- renderPlot(
         ggplot(data = total_impact_reactive(), aes(x = commodity, y = eutroph_total, fill = commodity)) +
             geom_col() +
             labs(x = "") +
-            labs(y = "Eutrophication (millions of g PO4^3 equivalent)\n") +
+            labs(y = "millions of g PO4^3 equivalent\n") +
             labs(fill = "") +
-            theme_bw()
+            labs(title = "Eutrophication") +
+            theme_bw() +
+            theme(legend.position = "none",
+                  axis.text.y = element_text(size=16),
+                  axis.text.x = element_text(size=16),
+                  title = element_text(size=20))
     )
     
     output$total_stresswater_plot <- renderPlot(
         ggplot(data = total_impact_reactive(), aes(x = commodity, y = stresswater_total, fill = commodity)) +
             geom_col() +
             labs(x = "") +
-            labs(y = "Stress-weighted Water Use (millions of L)\n") +
+            labs(y = "millions of L\n") +
             labs(fill = "") +
-            theme_bw()
+            labs(title = "Stress-weighted Water Use") +
+            theme_bw() +
+            theme(legend.position = "none",
+                  axis.text.y = element_text(size=16),
+                  axis.text.x = element_text(size=16),
+                  title = element_text(size=20))
     )
     
    
