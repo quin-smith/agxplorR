@@ -5,9 +5,9 @@ account: kerry-nixon
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 4029646
-bundleId: 4518212
+bundleId: 4518499
 url: https://kerry-nixon.shinyapps.io/agxplorr/
-when: 1619396647.81406
-lastSyncTime: 1619396647.81407
+when: 1619403335.70551
+lastSyncTime: 1619403335.70552
 asMultiple: FALSE
 asStatic: FALSE
